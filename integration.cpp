@@ -7,8 +7,11 @@
 //    Programmer: Ryan Caulfield Caulfield.16@osu.edu
 //
 //    To do list:
-//      1 - Find other integration methods will be useful and add them.
-//      2 - Is 1000 the right size for workspace?
+//      1 - This needs to be tested.
+//      2 - Find other integration methods will be useful and add them.
+//      3 - Is 1000 the right size for workspace?
+//      4 - make a seperate header file if this starts getting long.
+//
 ///////////////////////////////////////////////////////////////////////
 
 //includes
@@ -29,6 +32,12 @@ double my_gsl_integration(double lower, double upper,
 double my_gsl_integration(double lower, double upper, void *params_ptr
     double (*integrand) (double x,  void *params))
 {
+  //The arguments for this function:
+  //upper and lower are simply the upper and lower bounds of integration
+  //integrand should be a function of a simgle variable x and a void
+  //pointer of parameters. This is the format gsl needs, so there is
+  //no way around this. params_ptr should be a void pointer which is
+  //going to be used for the integrand.
   double abs_error = 1.0e-12;
   double rel_error = 1.0e-12;
   double result;		// This will be the return value
