@@ -43,8 +43,13 @@ double my_gsl_integration(double lower, double upper, void *params_ptr
   My_function.function = integrand;
   My_function.params = params_ptr;
 
+  //This is where the integration is happening. Google gsl qags if
+  //you want to understand more about the method and what it does.
   gsl_integration_qags (&My_function, lower, upper, abs_error,
     rel_error, 1000, work_ptr, &result, &error);
+
+  //This frees up the memory used by the gsl workspace.
+  gsl_integration_workspace_free(work_ptr);
 
   //Finally, the result of the integration was stored in result.
   return (result);
