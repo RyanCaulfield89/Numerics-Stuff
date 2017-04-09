@@ -24,12 +24,12 @@ using namespace std;
 //Wraps a gsl integration method so that our code looks cleaner.
 //This will use an adaptive gsl method so no need for a specified
 //number of points.
-double my_gsl_integration(double lower, double upper,
+double gsl_integration(double lower, double upper, void *params_ptr,
     double (*integrand) (double x,  void *params));
 
 ///////////////////////////////////////////////////////////////////////
 
-double my_gsl_integration(double lower, double upper, void *params_ptr
+double gsl_integration(double lower, double upper, void *params_ptr,
     double (*integrand) (double x,  void *params))
 {
   //The arguments for this function:
