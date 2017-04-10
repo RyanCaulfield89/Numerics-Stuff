@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-//    File: linalg_routines.cpp
+//    File: Linalg.cpp
 //    Description: This is a collection of linear algebra methods
 //
 //    Programmer: Ryan Caulfield Caulfield.16@osu.edu
@@ -15,11 +15,23 @@
 //using namespace std;
 
 //Headers
-class LinearAlgebra{
+class Linalg
+{
+  public:
+    Linalg(int dim);
+    void set_element(int i, int j, double value);
+    double get_element(int i, int j);
 
-//This method finds the eigenvectors and eigenvalues of a matrix
-void eigen_system(int dimension, double **matrix);
+  private:
+    int dimension; //dimensionality of the matrix
 
+    //This stuff is for the gsl routines
+    gsl_matrix *Amat_ptr;   //This is the matrix that will be solved
+    gsl_vector *Eigval_ptr;	//This will hold the eigenvalues
+    gsl_matrix *Eigvec_ptr;	//Each column will be an eigenvector
+    gsl_eigen_symmv_workspace *worksp;
+
+}
 ///////////////////////////////////////////////////////////////////////////////
 void eigen_system(int dimension, double **matrix)
 {
