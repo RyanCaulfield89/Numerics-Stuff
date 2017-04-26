@@ -32,11 +32,36 @@ Hamiltonian::Hamiltonian (const int dim,
 {
   dimension = dim;
   xpotential = potential;
-  construct_Hmatrix();
+  construct_localXmatrix();
+  solve_eigensystem();
+}
+
+//Constructor for an x-space nonlocal potential
+Hamiltonian::Hamiltonian (const int dim,
+  double(*potential)(double x1, double x2, void *params))
+{
+  dimension = dim;
+  xnonLocalpotential = potential;
+  construct_nonlocalXmatrix();
   solve_eigensystem();
 }
 
 void construct_localXmatrix()
+{
+
+}
+
+void construct_localKmatrix()
+{
+
+}
+
+void construct_nonlocalXmatrix()
+{
+
+}
+
+void construct_nonlocalKmatrix()
 {
 
 }
