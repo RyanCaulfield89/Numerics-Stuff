@@ -27,22 +27,46 @@ Hamiltonian::~Hamiltonian () // Destructor for Hamiltonian
 }
 
 //Constructor for an x-space local potential
-Hamiltonian::Hamiltonian (const int dim,
+Hamiltonian::Hamiltonian (const int dim, const char potential_type,
   double(*potential)(double x, void *params))
 {
   dimension = dim;
-  xpotential = potential;
-  construct_localXmatrix();
+  if(potential_type == "x")
+  {
+    xpotential = potential;
+    construct_localXmatrix();
+  }
+  if(potential_type == "k")
+  {
+    kpotential = potential;
+    construct_localKmatrix();
+  }
+  else
+  {
+    return();
+  }
   solve_eigensystem();
 }
 
 //Constructor for an x-space nonlocal potential
-Hamiltonian::Hamiltonian (const int dim,
+Hamiltonian::Hamiltonian (const int dim, const char potential_type,
   double(*potential)(double x1, double x2, void *params))
 {
   dimension = dim;
-  xnonLocalpotential = potential;
-  construct_nonlocalXmatrix();
+  if(potential_type == "x")
+  {
+    xnonLocalpotential = potential;
+    construct_nonlocalXmatrix();
+  }
+  if(potential_type == "k")
+  {
+    knonLocalpotential = potential;
+    construct_nonlocalKmatrix();
+  }
+  else
+  {
+    return();
+  }
   solve_eigensystem();
 }
 

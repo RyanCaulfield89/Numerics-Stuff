@@ -20,12 +20,13 @@ public:
   //elements to zero. You need to set the elements using set_element(i;j)
   Hamiltonian (const int dim);
   //A constructor which sets the dimensionality and the potential. It then
-  //builds the matrix from the potential in position space and solves the
-  //eigensystem.
-  Hamiltonian (const int dim, double(*potential)(double x, void *params));
+  //builds the matrix from the potential in xspace or kspace and solves the
+  //eigensystem. The potential_type should be "x" or "k".
+  Hamiltonian (const int dim, const char potential_type, 
+    double(*potential)(double x, void *params));
   //This does the same as the previous constructor but for a nonlocal
-  //potential in x-space.
-  Hamiltonian::Hamiltonian (const int dim,
+  //potential in x-space or k-space. The potential_type should be "x" or "k".
+  Hamiltonian::Hamiltonian (const int dim, const char potential_type,
     double(*potential)(double x1, double x2, void *params));
 
   ~Hamiltonian ();  // destructor
@@ -51,11 +52,11 @@ private:
   arma::mat Hmatrix;           // The matrix form of the Hamiltonian
   arma::vec eigenvalues;    // vector of eigenvalues
   arma::mat eigenvectors;   // matrix of eigenvectors
-  double (*potential) (double x, void *params) xpotential; //potential in xspace
-  double (*potential) (double k, void *params) kpotential; //potential in kspace
-  double (*potential) (double x1, double x2, void *params) xnonLocalPotential;
+  double (*xpotential) (double x, void *params); //potential in xspace
+  double (*kpotential) (double k, void *params) ; //potential in kspace
+  double (*xnonLocalPotential) (double x1, double x2, void *params);
   //Non-Local potnetial in x-space
-  double (*potential) (double k1, double k2, void *params) knonLocalPotential;
+  double (*knonLocalPotential) (double k1, double k2, void *params);
   //Non-Local potnetial in k-space
 }
 
