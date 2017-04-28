@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
 //    File: Hamiltonian.cpp
-//    Description:
+//    Description: See Hamiltonian.h
 //
 //    Programmer: Ryan Caulfield Caulfield.16@osu.edu
 //
@@ -14,10 +14,9 @@
 using namespace arma;
 
 ///////////////////////////////////////////////////////////////////////////////
-Hamiltonian::Hamiltonian (const int dim, double h)
+Hamiltonian::Hamiltonian (const int dim)
 {
   dimension = dim;
-  step_size = h;
   Hmatrix = mat(dimension,dimension);
   Hmatrix.zeroes();
 }
@@ -33,6 +32,7 @@ Hamiltonian::Hamiltonian (const int dim, double h, const char potential_type,
 {
   dimension = dim;
   step_size = h;
+  parameters = params;
   if(potential_type == "x")
   {
     xpotential = potential;
@@ -56,6 +56,7 @@ Hamiltonian::Hamiltonian (const int dim, double h, const char potential_type,
 {
   dimension = dim;
   step_size = h;
+  parameters = params;
   if(potential_type == "x")
   {
     xnonLocalpotential = potential;
@@ -79,7 +80,7 @@ void construct_localXmatrix()
   for(int i = 1; i <= dimension; i++){
     for(int j = 1; j <= dimension; j++){
       if(i==j){
-        set_element(i, j, 2.0/step_size + xpotential(double(i)*step_size));
+        set_element(i,j,2.0/step_size+xpotential(double(i)*step_size,parameters);
       }
       else if(i==j-1){
         set_element(i, j, -1.0/step_size);

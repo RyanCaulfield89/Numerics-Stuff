@@ -1,7 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
 //    File: Hamiltonian.h
-//    Description: Header file for Hamiltonian.cpp
+//    Description: Header file for Hamiltonian.cpp. This contains information
+//                 about potentials and finite difference matrix forms. The
+//                 discretization is done with uniform spacing for a step
+//                 size which is also stored as a parameter. Using these methods
+//                 we can solve for eigenstates and eigenvalues.
 //
 //    Programmer: Ryan Caulfield Caulfield.16@osu.edu
 //
@@ -18,7 +22,7 @@ class Hamiltonian
 public:
   //A constructor that just initializes the dimension of H and sets all it'
   //elements to zero. You need to set the elements using set_element(i;j)
-  Hamiltonian (const int dim, double h);
+  Hamiltonian (const int dim);
   //A constructor which sets the dimensionality and the potential. It then
   //builds the matrix from the potential in xspace or kspace.
   //The potential_type should be "x" or "k".
@@ -60,7 +64,7 @@ private:
                             //Non-Local potnetial in x-space
   double (*knonLocalPotential) (double k1, double k2, void *params);
                             //Non-Local potnetial in k-space
-  void *params              //parameters for the potentials
+  void *parameters              //parameters for the potentials
 }
 
 #endif
