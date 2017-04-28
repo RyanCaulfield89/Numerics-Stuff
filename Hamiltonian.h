@@ -26,11 +26,11 @@ public:
   //A constructor which sets the dimensionality and the potential. It then
   //builds the matrix from the potential in xspace or kspace.
   //The potential_type should be "x" or "k".
-  Hamiltonian (const int dim, , double h, const char potential_type,
+  Hamiltonian (const int dim, double h, const char potential_type,
     double(*potential)(double x, void *params), void *params);
   //This does the same as the previous constructor but for a nonlocal
   //potential in x-space or k-space. The potential_type should be "x" or "k".
-  Hamiltonian::Hamiltonian (const int dim,, double h, const char potential_type,
+  Hamiltonian (const int dim, double h, const char potential_type,
     double(*potential)(double x1, double x2, void *params), void *params);
 
   ~Hamiltonian ();  // destructor
@@ -53,18 +53,18 @@ public:
 
 private:
   int dimension;            // Dimensionality
-  double step_size          // The step size used for FD approximation of
+  double step_size;         // The step size used for FD approximation of
                             // the derivative.
   arma::mat Hmatrix;        // The matrix form of the Hamiltonian
   arma::vec eigenvalues;    // vector of eigenvalues
   arma::mat eigenvectors;   // matrix of eigenvectors
   double (*xpotential) (double x, void *params); //potential in xspace
-  double (*kpotential) (double k, void *params) ; //potential in kspace
+  double (*kpotential) (double k, void *params); //potential in kspace
   double (*xnonLocalPotential) (double x1, double x2, void *params);
                             //Non-Local potnetial in x-space
   double (*knonLocalPotential) (double k1, double k2, void *params);
                             //Non-Local potnetial in k-space
-  void *parameters              //parameters for the potentials
-}
+  void *parameters;         //parameters for the potentials
+};
 
 #endif

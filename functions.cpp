@@ -12,6 +12,7 @@
 
 //Includes
 #include <cmath>
+#include "functions.h"
 using namespace std;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -19,7 +20,7 @@ using namespace std;
 double coulomb_potential(double x, void *params)
 {
   double charge;
-  charge = *(double *) params.q;
+  charge = *(double *) params;
   double return_value;
   return_value = charge / x;
   return (return_value);
@@ -30,4 +31,5 @@ double harmonic_potential(double x, void *params)
   double k;
   k = *(double*) params;
   double return_value = 0.5*k*x*x;
+  return (return_value);
 }

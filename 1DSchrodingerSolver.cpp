@@ -14,8 +14,10 @@
 #include <fstream>
 #include <iostream>
 #include <iomanip>
-#include <hamiltonian.h>
-#include <functions.h>
+
+//My classes
+#include "Hamiltonian.h"
+#include "functions.h"
 
 using namespace std;
 
@@ -32,7 +34,7 @@ int main(){
 
   //Create the Hamiltonian object and then solve for its eigenvalues and
   //eigenvectors.
-  Hamiltonian my_hamiltonian(dimension, h, "x", &harmonic_potential, params);
+  Hamiltonian my_hamiltonian(dimension, h, 'x', &harmonic_potential, params);
   my_hamiltonian.solve_eigensystem();
 
   //Set up an output file

@@ -10,15 +10,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 //Includes
-#include <Hamiltonian.h>
+#include "Hamiltonian.h"
 using namespace arma;
 
 ///////////////////////////////////////////////////////////////////////////////
 Hamiltonian::Hamiltonian (const int dim)
 {
   dimension = dim;
-  Hmatrix = mat(dimension,dimension);
-  Hmatrix.zeroes();
+  Hmatrix = zeros<mat>(dimension,dimension);
 }
 
 Hamiltonian::~Hamiltonian () // Destructor for Hamiltonian
@@ -33,19 +32,15 @@ Hamiltonian::Hamiltonian (const int dim, double h, const char potential_type,
   dimension = dim;
   step_size = h;
   parameters = params;
-  if(potential_type == "x")
+  if(potential_type == 'x')
   {
     xpotential = potential;
     construct_localXmatrix();
   }
-  if(potential_type == "k")
+  if(potential_type == 'k')
   {
     kpotential = potential;
     construct_localKmatrix();
-  }
-  else
-  {
-    return();
   }
   //solve_eigensystem();
 }
@@ -57,30 +52,26 @@ Hamiltonian::Hamiltonian (const int dim, double h, const char potential_type,
   dimension = dim;
   step_size = h;
   parameters = params;
-  if(potential_type == "x")
+  if(potential_type == 'x')
   {
-    xnonLocalpotential = potential;
+    xnonLocalPotential = potential;
     construct_nonlocalXmatrix();
   }
-  if(potential_type == "k")
+  if(potential_type == 'k')
   {
-    knonLocalpotential = potential;
+    knonLocalPotential = potential;
     construct_nonlocalKmatrix();
-  }
-  else
-  {
-    return();
   }
   //solve_eigensystem();
 }
 
-void construct_localXmatrix()
+void Hamiltonian::construct_localXmatrix()
 {
   Hmatrix = mat(dimension,dimension);
   for(int i = 1; i <= dimension; i++){
     for(int j = 1; j <= dimension; j++){
       if(i==j){
-        set_element(i,j,2.0/step_size+xpotential(double(i)*step_size,parameters);
+        set_element(i,j,2.0/step_size+xpotential(double(i)*step_size,parameters));
       }
       else if(i==j-1){
         set_element(i, j, -1.0/step_size);
@@ -95,45 +86,42 @@ void construct_localXmatrix()
   }
 }
 
-void construct_localKmatrix()
+void Hamiltonian::construct_localKmatrix()
 {
-  Hmatrix = mat(dimension,dimension);
-  Hmatrix.zeroes();
+  Hmatrix = zeros<mat>(dimension,dimension);
 }
 
-void construct_nonlocalXmatrix()
+void Hamiltonian::construct_nonlocalXmatrix()
 {
-  Hmatrix = mat(dimension,dimension);
-  Hmatrix.zeroes();
+  Hmatrix = zeros<mat>(dimension,dimension);
 }
 
-void construct_nonlocalKmatrix()
+void Hamiltonian::construct_nonlocalKmatrix()
 {
-  Hmatrix = mat(dimension,dimension);
-  Hmatrix.zeroes();
+  Hmatrix = zeros<mat>(dimension,dimension);
 }
 
-void solve_eigensystem()
+void Hamiltonian::solve_eigensystem()
 {
   eig_sym(eigenvalues, eigenvectors, Hmatrix);
 }
 
-void set_element(const int i, const int j, const double value)
+void Hamiltonian::set_element(const int i, const int j, const double value)
 {
   Hmatrix(i-1,j-1) = value;
 }
 
-double get_element(const int i, const int j)
+double Hamiltonian::get_element(const int i, const int j)
 {
   return Hmatrix(i-1,j-1);
 }
 
-double get_eigenvalue(const int i)
+double Hamiltonian::get_eigenvalue(const int i)
 {
   return eigenvalues (i-1);
 }
 
-double get_eigenvector(const int i, const int j)
+double Hamiltonian::get_eigenvector(const int i, const int j)
 {
   return eigenvectors (j-1, i-1);
 }
