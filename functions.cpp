@@ -14,12 +14,6 @@
 #include <cmath>
 using namespace std;
 
-//Headers
-
-//Coulomb potential. The parameter pointer needs to have an attribute q, which
-//is the charge of the particle in units of 4*Pi*epsilon_0.
-double coulomb_potential(double x, void *params);
-
 ///////////////////////////////////////////////////////////////////////////////
 
 double coulomb_potential(double x, void *params)
@@ -29,4 +23,11 @@ double coulomb_potential(double x, void *params)
   double return_value;
   return_value = charge / x;
   return (return_value);
+}
+
+double harmonic_potential(double x, void *params)
+{
+  double k;
+  k = *(double*) params;
+  double return_value = 0.5*k*x*x;
 }
