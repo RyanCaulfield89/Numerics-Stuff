@@ -6,7 +6,7 @@
 //    Programmer: Ryan Caulfield Caulfield.16@osu.edu
 //
 //    To Do List:
-//      1 -
+//      1 - Implement the other construct matrix functions
 ///////////////////////////////////////////////////////////////////////////////
 
 //Includes
@@ -14,9 +14,10 @@
 using namespace arma;
 
 ///////////////////////////////////////////////////////////////////////////////
-Hamiltonian::Hamiltonian (const int dim)
+Hamiltonian::Hamiltonian (const int dim, double h)
 {
   dimension = dim;
+  step_size = h;
   Hmatrix = mat(dimension,dimension);
   Hmatrix.zeroes();
 }
@@ -27,10 +28,11 @@ Hamiltonian::~Hamiltonian () // Destructor for Hamiltonian
 }
 
 //Constructor for an x-space local potential
-Hamiltonian::Hamiltonian (const int dim, const char potential_type,
-  double(*potential)(double x, void *params))
+Hamiltonian::Hamiltonian (const int dim, double h, const char potential_type,
+  double(*potential)(double x, void *params), void *params)
 {
   dimension = dim;
+  step_size = h;
   if(potential_type == "x")
   {
     xpotential = potential;
@@ -45,14 +47,15 @@ Hamiltonian::Hamiltonian (const int dim, const char potential_type,
   {
     return();
   }
-  solve_eigensystem();
+  //solve_eigensystem();
 }
 
 //Constructor for an x-space nonlocal potential
-Hamiltonian::Hamiltonian (const int dim, const char potential_type,
-  double(*potential)(double x1, double x2, void *params))
+Hamiltonian::Hamiltonian (const int dim, double h, const char potential_type,
+  double(*potential)(double x1, double x2, void *params), void *params)
 {
   dimension = dim;
+  step_size = h;
   if(potential_type == "x")
   {
     xnonLocalpotential = potential;
@@ -67,27 +70,46 @@ Hamiltonian::Hamiltonian (const int dim, const char potential_type,
   {
     return();
   }
-  solve_eigensystem();
+  //solve_eigensystem();
 }
 
 void construct_localXmatrix()
 {
-
+  Hmatrix = mat(dimension,dimension);
+  for(int i = 1; i <= dimension; i++){
+    for(int j = 1; j <= dimension; j++){
+      if(i==j){
+        set_element(i, j, 2.0/step_size + xpotential(double(i)*step_size));
+      }
+      else if(i==j-1){
+        set_element(i, j, -1.0/step_size);
+      }
+      else if(i==j+1){
+        set_element(i, j, -1.0/step_size);
+      }
+      else{
+        set_element(i, j, 0);
+      }
+    }
+  }
 }
 
 void construct_localKmatrix()
 {
-
+  Hmatrix = mat(dimension,dimension);
+  Hmatrix.zeroes();
 }
 
 void construct_nonlocalXmatrix()
 {
-
+  Hmatrix = mat(dimension,dimension);
+  Hmatrix.zeroes();
 }
 
 void construct_nonlocalKmatrix()
 {
-
+  Hmatrix = mat(dimension,dimension);
+  Hmatrix.zeroes();
 }
 
 void solve_eigensystem()
