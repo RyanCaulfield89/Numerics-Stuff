@@ -25,11 +25,11 @@ using namespace std;
 int main(){
   //Set up variables for discretizing the system
   double h = 0.01;
-  double Rmax = 10.0;
+  double Rmax = 2.0;
   double dimension = Rmax / h;
 
   //These are the parameters to pass to the function.
-  double alpha = 1.0;
+  std::complex<double> alpha = 1.0;
   void *params = &alpha;
 
   //Create the Hamiltonian object and then solve for its eigenvalues and
@@ -43,7 +43,7 @@ int main(){
   my_out << setw(5) << 0.0 << "  " << 0.0 << endl;
   for(int j = 1; j <= dimension; j++){
     my_out << setw(5) << double(j)*h << "  " << setprecision(16)
-           << my_hamiltonian.get_eigenvector(1,j) << endl;
+           << norm(my_hamiltonian.get_eigenvector(1,j)) << endl;
   }
   my_out.close();
   return(0);

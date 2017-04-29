@@ -16,6 +16,7 @@
 
 //Include files
 #include <armadillo>  //This package does all the linear algebra stuff.
+#include <complex>    //Complex number stuff.
 
 class Hamiltonian
 {
@@ -27,11 +28,11 @@ public:
   //builds the matrix from the potential in xspace or kspace.
   //The potential_type should be "x" or "k".
   Hamiltonian (const int dim, double h, const char potential_type,
-    double(*potential)(double x, void *params), void *params);
+    std::complex<double>(*potential)(double x, void *params), void *params);
   //This does the same as the previous constructor but for a nonlocal
   //potential in x-space or k-space. The potential_type should be "x" or "k".
   Hamiltonian (const int dim, double h, const char potential_type,
-    double(*potential)(double x1, double x2, void *params), void *params);
+    std::complex<double>(*potential)(double x1, double x2, void *params), void *params);
 
   ~Hamiltonian ();  // destructor
 
@@ -46,23 +47,25 @@ public:
   void solve_eigensystem();
 
   //getters and setters
-  void set_element(const int i, const int j, const double value);
-  double get_element(const int i, const int j);
-  double get_eigenvalue(const int i);
-  double get_eigenvector(const int i, const int j);
+  void set_element(const int i, const int j, const std::complex<double> value);
+  std::complex<double> get_element(const int i, const int j);
+  std::complex<double> get_eigenvalue(const int i);
+  std::complex<double> get_eigenvector(const int i, const int j);
 
 private:
   int dimension;            // Dimensionality
   double step_size;         // The step size used for FD approximation of
                             // the derivative.
-  arma::mat Hmatrix;        // The matrix form of the Hamiltonian
+  arma::cx_mat Hmatrix;        // The matrix form of the Hamiltonian
   arma::vec eigenvalues;    // vector of eigenvalues
-  arma::mat eigenvectors;   // matrix of eigenvectors
-  double (*xpotential) (double x, void *params); //potential in xspace
-  double (*kpotential) (double k, void *params); //potential in kspace
-  double (*xnonLocalPotential) (double x1, double x2, void *params);
+  arma::cx_mat eigenvectors;   // matrix of eigenvectors
+  std::complex<double>(*xpotential)(double x, void *params);
+                            //potential in xspace
+  std::complex<double>(*kpotential)(double k, void *params);
+                            //potential in kspace
+  std::complex<double>(*xnonLocalPotential)(double x1, double x2, void *params);
                             //Non-Local potnetial in x-space
-  double (*knonLocalPotential) (double k1, double k2, void *params);
+  std::complex<double>(*knonLocalPotential)(double k1, double k2, void *params);
                             //Non-Local potnetial in k-space
   void *parameters;         //parameters for the potentials
 };
