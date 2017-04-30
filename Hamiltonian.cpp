@@ -89,7 +89,17 @@ void Hamiltonian::construct_localXmatrix()
 
 void Hamiltonian::construct_localKmatrix()
 {
-  Hmatrix = zeros<cx_mat>(dimension,dimension);
+  Hmatrix = cx_mat(dimension,dimension);
+  for(int i = 1; i <= dimension; i++){
+    for(int j = 1; j <= dimension; j++){
+      if(i==j){
+        set_element(i, j, i*i + xpotential(double(i) * step_size, parameters));
+      }
+      else{
+        set_element(i, j, 0);
+      }
+    }
+  }
 }
 
 void Hamiltonian::construct_nonlocalXmatrix()
@@ -120,7 +130,19 @@ void Hamiltonian::construct_nonlocalXmatrix()
 
 void Hamiltonian::construct_nonlocalKmatrix()
 {
-  Hmatrix = zeros<cx_mat>(dimension,dimension);
+  Hmatrix = cx_mat(dimension,dimension);
+  for(int i = 1; i <= dimension; i++){
+    for(int j = 1; j <= dimension; j++){
+      if(i==j){
+        set_element(i, j, i*i + xnonLocalPotential(double(i) * step_size,
+                    double(j) * step_size, parameters));
+      }
+      else{
+        set_element(i, j, xnonLocalPotential(double(i) * step_size,
+                    double(j) * step_size, parameters));
+      }
+    }
+  }
 }
 
 void Hamiltonian::solve_eigensystem()
