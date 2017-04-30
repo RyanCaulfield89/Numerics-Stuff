@@ -94,7 +94,28 @@ void Hamiltonian::construct_localKmatrix()
 
 void Hamiltonian::construct_nonlocalXmatrix()
 {
-  Hmatrix = zeros<cx_mat>(dimension,dimension);
+  Hmatrix = cx_mat(dimension,dimension);
+  for(int i = 1; i <= dimension; i++){
+    for(int j = 1; j <= dimension; j++){
+      if(i==j){
+        set_element(i, j, 2.0 / step_size + xnonLocalPotential(double(i) *
+        step_size, double(j) * step_size, parameters));
+      }
+      else if(i==j-1){
+        set_element(i, j, -1.0 / step_size + xnonLocalPotential(double(i) *
+        step_size, double(j) * step_size, parameters));
+      }
+      else if(i==j+1){
+        set_element(i, j, -1.0 / step_size + xnonLocalPotential(double(i) *
+        step_size, double(j) * step_size, parameters));
+      }
+      else{
+        set_element(i, j,
+          xnonLocalPotential(double(i) * step_size,
+          double(j) * step_size, parameters));
+      }
+    }
+  }
 }
 
 void Hamiltonian::construct_nonlocalKmatrix()

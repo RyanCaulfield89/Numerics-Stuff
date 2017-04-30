@@ -34,3 +34,30 @@ std::complex<double> harmonic_potential(double x, void *params)
   std::complex<double> return_value = 0.5*k*x*x;
   return (return_value);
 }
+
+std::complex<double> nonlocal_coulomb_potential(double x, double y, void *params)
+{
+  std::complex<double> beta;
+  beta = *(std::complex<double> *) params;
+  std::complex<double> return_value;
+  return_value =  1 / fabs(x - y) * exp(-(x - y)*(x - y) / beta);
+  return (return_value);
+}
+
+std::complex<double> nonlocal_harmonic_potential(double x, double y, void *params)
+{
+  std::complex<double> beta;
+  beta = *(std::complex<double> *) params;
+  std::complex<double> return_value;
+  return_value = (x - y)*(x - y) * exp(-(x - y)*(x - y) / beta);
+  return (return_value);
+}
+
+std::complex<double> nonlocal_potential(double x, double y, void *params)
+{
+  std::complex<double> beta;
+  beta = *(std::complex<double> *) params;
+  std::complex<double> return_value;
+  return_value = - (x + y) * exp(-(abs(x - y) - 1)*(abs(x - y) - 1) / beta);
+  return (return_value);
+}

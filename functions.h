@@ -19,5 +19,8 @@
 //is the charge of the particle in units of 4*Pi*epsilon_0.
 std::complex<double> coulomb_potential(double x, void *params);
 std::complex<double> harmonic_potential(double x, void *params);
+std::complex<double> nonlocal_coulomb_potential(double x, double y, void *params);
+std::complex<double> nonlocal_harmonic_potential(double x, double y, void *params);
+std::complex<double> nonlocal_potential(double x, double y, void *params);
 
 #endif

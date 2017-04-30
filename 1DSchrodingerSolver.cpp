@@ -34,7 +34,7 @@ int main(){
 
   //Create the Hamiltonian object and then solve for its eigenvalues and
   //eigenvectors.
-  Hamiltonian my_hamiltonian(dimension, h, 'x', &harmonic_potential, params);
+  Hamiltonian my_hamiltonian(dimension, h, 'x', &nonlocal_potential, params);
   my_hamiltonian.solve_eigensystem();
 
   //Set up an output file
