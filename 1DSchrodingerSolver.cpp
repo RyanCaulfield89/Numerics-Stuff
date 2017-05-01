@@ -11,10 +11,6 @@
 //      1 -
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <fstream>
-#include <iostream>
-#include <iomanip>
-
 //My classes
 #include "Hamiltonian.h"
 #include "functions.h"
@@ -27,25 +23,15 @@ int main(){
   double h = 0.01;
   double Rmin = -2.0;
   double Rmax = 2.0;
-  double dimension = (Rmax - Rmin) / h;
 
   //These are the parameters to pass to the function.
   std::complex<double> alpha = 1.0;
   void *params = &alpha;
 
   //Create the Hamiltonian object and then solve for its eigenvalues and
-  //eigenvectors.
+  //eigenvectors. Save the ground state for plotting.
   Hamiltonian my_hamiltonian(Rmin, Rmax, h, 'x', &harmonic_potential, params);
   my_hamiltonian.solve_eigensystem();
-
-  //Set up an output file
-  ofstream my_out("ground_state.dat");
-  my_out << "#  x       psi(x)     " << endl;
-  my_out << setw(5) << 0.0 << "  " << 0.0 << endl;
-  for(int j = 1; j <= dimension; j++){
-    my_out << setw(5) << Rmin + double(j)*h << "  " << setprecision(16)
-           << norm(my_hamiltonian.get_eigenvector(1,j)) << endl;
-  }
-  my_out.close();
+  my_hamiltonian.save_eigenvector(1, "ground_state.dat");
   return(0);
 }

@@ -12,6 +12,7 @@
 //Includes
 #include "Hamiltonian.h"
 using namespace arma;
+using namespace std;
 
 ///////////////////////////////////////////////////////////////////////////////
 Hamiltonian::Hamiltonian (const int dim)
@@ -150,6 +151,20 @@ void Hamiltonian::construct_nonlocalKmatrix()
 void Hamiltonian::solve_eigensystem()
 {
   eig_sym(eigenvalues, eigenvectors, Hmatrix);
+}
+
+void Hamiltonian::save_eigenvector(const int i, const char* filename)
+{
+  //Set up an output file
+  ofstream my_out(filename);
+  my_out << "#  x       psi(x)     " << endl;
+  my_out << setw(5) << right_boundary << "  " << 0.0 << endl;
+  for(int j = 1; j <= dimension; j++){
+    my_out << setw(5) << left_boundary + double(j) * step_size << "  "
+                      << setprecision(16) << norm(get_eigenvector(i,j)) << endl;
+  }
+  my_out << setw(5) << left_boundary << "  " << 0.0 << endl;
+  my_out.close();
 }
 
 void Hamiltonian::set_element(const int i, const int j, const std::complex<double> value)
