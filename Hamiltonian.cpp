@@ -26,11 +26,13 @@ Hamiltonian::~Hamiltonian () // Destructor for Hamiltonian
 }
 
 //Constructor for an x-space local potential
-Hamiltonian::Hamiltonian (const int dim, double h, const char potential_type,
+Hamiltonian::Hamiltonian (double Rmin, double Rmax, double h, const char potential_type,
   std::complex<double>(*potential)(double x, void *params), void *params)
 {
-  dimension = dim;
+  left_boundary = Rmin;
+  right_boundary = Rmax;
   step_size = h;
+  dimension = (Rmax - Rmin) / h;
   parameters = params;
   if(potential_type == 'x')
   {
@@ -46,11 +48,13 @@ Hamiltonian::Hamiltonian (const int dim, double h, const char potential_type,
 }
 
 //Constructor for an x-space nonlocal potential
-Hamiltonian::Hamiltonian (const int dim, double h, const char potential_type,
+Hamiltonian::Hamiltonian (double Rmin, double Rmax, double h, const char potential_type,
   std::complex<double>(*potential)(double x1, double x2, void *params), void *params)
 {
-  dimension = dim;
+  left_boundary = Rmin;
+  right_boundary = Rmax;
   step_size = h;
+  dimension = (Rmax - Rmin) / h;
   parameters = params;
   if(potential_type == 'x')
   {
@@ -70,9 +74,9 @@ void Hamiltonian::construct_localXmatrix()
   Hmatrix = cx_mat(dimension,dimension);
   for(int i = 1; i <= dimension; i++){
     for(int j = 1; j <= dimension; j++){
+      double x = left_boundary + double(i) * step_size;
       if(i==j){
-        set_element(i, j, 2.0 / step_size +
-          xpotential(double(i) * step_size, parameters));
+        set_element(i, j, 2.0 / step_size + xpotential(x, parameters));
       }
       else if(i==j-1){
         set_element(i, j, -1.0/step_size);
@@ -92,8 +96,9 @@ void Hamiltonian::construct_localKmatrix()
   Hmatrix = cx_mat(dimension,dimension);
   for(int i = 1; i <= dimension; i++){
     for(int j = 1; j <= dimension; j++){
+      double k = left_boundary + double(i) * step_size;
       if(i==j){
-        set_element(i, j, i*i + xpotential(double(i) * step_size, parameters));
+        set_element(i, j, k*k + kpotential(k, parameters));
       }
       else{
         set_element(i, j, 0);
@@ -107,22 +112,19 @@ void Hamiltonian::construct_nonlocalXmatrix()
   Hmatrix = cx_mat(dimension,dimension);
   for(int i = 1; i <= dimension; i++){
     for(int j = 1; j <= dimension; j++){
+      double x = left_boundary + double(i) * step_size;
+      double y = right_boundary + double(j) * step_size;
       if(i==j){
-        set_element(i, j, 2.0 / step_size + xnonLocalPotential(double(i) *
-        step_size, double(j) * step_size, parameters));
+        set_element(i, j, 2.0 / step_size + xnonLocalPotential(x, y, parameters));
       }
       else if(i==j-1){
-        set_element(i, j, -1.0 / step_size + xnonLocalPotential(double(i) *
-        step_size, double(j) * step_size, parameters));
+        set_element(i, j, -1.0 / step_size + xnonLocalPotential(x, y, parameters));
       }
       else if(i==j+1){
-        set_element(i, j, -1.0 / step_size + xnonLocalPotential(double(i) *
-        step_size, double(j) * step_size, parameters));
+        set_element(i, j, -1.0 / step_size + xnonLocalPotential(x, y, parameters));
       }
       else{
-        set_element(i, j,
-          xnonLocalPotential(double(i) * step_size,
-          double(j) * step_size, parameters));
+        set_element(i, j, xnonLocalPotential(x, y, parameters));
       }
     }
   }
@@ -133,13 +135,13 @@ void Hamiltonian::construct_nonlocalKmatrix()
   Hmatrix = cx_mat(dimension,dimension);
   for(int i = 1; i <= dimension; i++){
     for(int j = 1; j <= dimension; j++){
+      double k = left_boundary + double(i) * step_size;
+      double p = right_boundary + double(j) * step_size;
       if(i==j){
-        set_element(i, j, i*i + xnonLocalPotential(double(i) * step_size,
-                    double(j) * step_size, parameters));
+        set_element(i, j, k*k + knonLocalPotential(k, p, parameters));
       }
       else{
-        set_element(i, j, xnonLocalPotential(double(i) * step_size,
-                    double(j) * step_size, parameters));
+        set_element(i, j, knonLocalPotential(k, p, parameters));
       }
     }
   }

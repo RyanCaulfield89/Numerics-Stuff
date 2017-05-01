@@ -27,16 +27,17 @@ public:
   //A constructor which sets the dimensionality and the potential. It then
   //builds the matrix from the potential in xspace or kspace.
   //The potential_type should be "x" or "k".
-  Hamiltonian (const int dim, double h, const char potential_type,
+  Hamiltonian (double Rmin, double Rmax, double h, const char potential_type,
     std::complex<double>(*potential)(double x, void *params), void *params);
   //This does the same as the previous constructor but for a nonlocal
   //potential in x-space or k-space. The potential_type should be "x" or "k".
-  Hamiltonian (const int dim, double h, const char potential_type,
+  Hamiltonian (double Rmin, double Rmax, double h, const char potential_type,
     std::complex<double>(*potential)(double x1, double x2, void *params), void *params);
 
   ~Hamiltonian ();  // destructor
 
   //These construct the hamiltonian matrix for x or k both local and nonlocal.
+  //The utilize dirichlet boundary conditions
   void construct_localXmatrix();
   void construct_localKmatrix();
   void construct_nonlocalXmatrix();
@@ -53,6 +54,8 @@ public:
   std::complex<double> get_eigenvector(const int i, const int j);
 
 private:
+  double left_boundary;     // The minimum value of x
+  double right_boundary;   // maximum value of x
   int dimension;            // Dimensionality
   double step_size;         // The step size used for FD approximation of
                             // the derivative.
