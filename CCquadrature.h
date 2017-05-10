@@ -30,12 +30,8 @@ class CCquadrature
 {
   public:
     //Constructs the object and initializes the # of points and the boundaries.
-    //With a complex integrand.
     CCquadrature(int n, double a, double b,
       std::complex<double>(*my_function)(double x, void *params), void *params);
-    //With a strictly real integrand.
-    CCquadrature(int n, double a, double b,
-      double(*my_function)(double x, void *params), void *params);
     //Destructor.
     ~CCquadrature();
 
