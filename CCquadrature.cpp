@@ -64,6 +64,8 @@ void CCquadrature::construct_diff_matrix(){
 }
 
 void CCquadrature::find_points(){
+  //use extreme points of the Nth chebyshev polynomial.
+  //Given by x_i = cos(Pi*i/N)
   points = vec(numpoints + 1);
   for(int i = 0; i <= numpoints; i++){
     points(i) = cos(double(i) * M_PI / numpoints);
@@ -79,6 +81,8 @@ void CCquadrature::find_weights(){
 }
 
 void CCquadrature::find_coefficients(){
+  //Uses the formula c_i = (2/N)*sum(j,1,N,f(x_j)*T_i(x_j))
+  //By convention, c_0 gets an extra factor of 1/2.
   coefficients = cx_vec(numpoints + 1);
   for(int i = 0; i <= numpoints; i++){
     for(int j = 1; j <= numpoints; j++){
@@ -91,6 +95,7 @@ void CCquadrature::find_coefficients(){
 }
 
 double CCquadrature::nth_Tchebyshev_polynomial(int n, double x){
+  //Exact formula defined piecewise. Look it up.
   if(abs(x)<=1){
     return cos(n * acos(x));
   }
@@ -107,6 +112,7 @@ double CCquadrature::nth_Tchebyshev_polynomial(int n, double x){
 }
 
 double CCquadrature::nth_Uchebyshev_polynomial(int n, double x){
+  //Exact formula. Look it up.
   return (pow(x+sqrt(x*x-1),n+1) - pow(x-sqrt(x*x-1),n+1))/(2*sqrt(x*x-1));
 }
 
@@ -128,9 +134,13 @@ double CCquadrature::evaluate_integral(){
   double sum = 0;
   double x = 0;
   for(int i = 0; i <= numpoints; i++){
+    //The quadrature rule works for integrals from -1 to 1 so
+    //we need to change variables to go from a to b.
     x = (right_boundary - left_boundary) * points(i) / 2.0
         + (right_boundary + left_boundary) / 2.0;
-    sum += integrand(x, params) * weights(i);
+    //The sqrt(1-x^2) factor is the inverse of the weighting
+    //function for chebyshev polynomials.
+    sum += sqrt(1-x*x) * integrand(x, params) * weights(i);
   }
   return sum;
 }
