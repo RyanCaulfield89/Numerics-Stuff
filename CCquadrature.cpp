@@ -126,8 +126,11 @@ double CCquadrature::diff_nth_Uchebyshev_polynomial(int n, double x){
 
 double CCquadrature::evaluate_integral(){
   double sum = 0;
+  double x = 0;
   for(int i = 0; i <= numpoints; i++){
-    sum += integrand(points(i),params) * weights(i);
+    x = (right_boundary - left_boundary) * points(i) / 2.0
+        + (right_boundary + left_boundary) / 2.0;
+    sum += integrand(x, params) * weights(i);
   }
   return sum;
 }
