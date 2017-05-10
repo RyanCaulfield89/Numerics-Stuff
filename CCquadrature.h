@@ -2,12 +2,24 @@
 //
 //    File: CCquadrature.h
 //    Description: Header file for CCquadrature.cpp.
+//    This uses Crenshaw-Curtis dicretization to approximate integrals and
+//    derivatives. Idealy, it should allow you to approximate integrals using
+//    very few points and should return an exact value for polynomials of
+//    degree N-1 or less where N is the number of points. It should also
+//    be able to solve integro-differential equations, since you can discretize
+//    an integral into a sum while also discretizing a derivative into a matrix.
+//    The form of the IDE will be left to the user to implement in a seperate
+//    file. In addition, this will also get the expansion coefficients for a
+//    Chebyshev polynomial expansion of a function. This might be less useful if
+//    you already have the function explicitly. This uses the Armadillo package.
+//    You can find documentation at http://arma.sourceforge.net/docs.html
+//    See CCquadrature_examples for examples of how this works.
 //
 //    Programmer: Ryan Caulfield Caulfield.16@osu.edu
 //
 ///////////////////////////////////////////////////////////////////////////////
-#ifndef ARMADILLOCCQUADRATURE_H
-#define ARMADILLOCCQUADRATURE_H //To avoid including this file twice
+#ifndef CCQUADRATURE_H
+#define CCQUADRATURE_H //To avoid including this file twice
 
 //Include files
 #include <armadillo>  //This package does all the linear algebra stuff.
@@ -18,8 +30,12 @@ class CCquadrature
 {
   public:
     //Constructs the object and initializes the # of points and the boundaries.
+    //With a complex integrand.
     CCquadrature(int n, double a, double b,
       std::complex<double>(*my_function)(double x, void *params), void *params);
+    //With a strictly real integrand.
+    CCquadrature(int n, double a, double b,
+      double(*my_function)(double x, void *params), void *params);
     //Destructor.
     ~CCquadrature();
 
