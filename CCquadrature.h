@@ -54,7 +54,10 @@ class CCquadrature
     //the 2nd kind at x.
     double diff_nth_Uchebyshev_polynomial(int n, double x);
     //This evaluated the integral using the quadrature rule.
-    double evaluate_integral();
+    std::complex<double> evaluate_integral();
+    //This approximates the function at x by using a linear combination of
+    //chebyshev polynomials.
+    std::complex<double> interpolate(double x);
 
     //Getters for the important stuff.
     int get_numpoints();

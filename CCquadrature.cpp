@@ -130,7 +130,7 @@ double CCquadrature::diff_nth_Uchebyshev_polynomial(int n, double x){
   / (x*x - 1);
 }
 
-double CCquadrature::evaluate_integral(){
+complex<double> CCquadrature::evaluate_integral(){
   double sum = 0;
   double x = 0;
   for(int i = 0; i <= numpoints; i++){
@@ -143,6 +143,14 @@ double CCquadrature::evaluate_integral(){
     sum += sqrt(1-x*x) * integrand(x, params) * weights(i);
   }
   return sum;
+}
+
+complex<double> interpolate(double x){
+  complex<double> return_value = 0;
+  for(int i = 0; i < numpoints; i++){
+    return_value += coefficients(i) * nth_Tchebyshev_polynomial(i,x);
+  }
+  return return_value;
 }
 
 int CCquadrature::get_numpoints(){
