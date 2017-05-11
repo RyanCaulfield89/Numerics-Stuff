@@ -77,3 +77,10 @@ complex<double> quadratic_polynomial(double x, void *params){
   return_value = a*x*x + b*x + c;
   return return_value;
 }
+
+std::complex<double> gaussian(double x, void *params){
+  complex<double> beta;
+  beta = *(complex<double> *) params;
+  complex<double> return_value;
+  return_value = exp(-beta*x*x);
+}
