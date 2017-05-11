@@ -61,21 +61,28 @@ int main(){
 
   //Now, lets do an integration with a quadratic polynomial
   cout << "Let's integrate a quadratic polynomial using CCquadrature" << endl;
+  cout << "What should the coefficients a,b,c be?" << endl;
 
   //parameters for the quadratic polynomial
-  void *quadratic_params;
   quadratic_parameters Q_parameters;
-  Q_parameters.a = 1.0;
-  Q_parameters.b = 2.0;
-  Q_parameters.c = 1.0;
+  cout << "a = ";
+  cin >> Q_parameters.a;
+  cout << endl;
+  cout << "b = ";
+  cin >> Q_parameters.b;
+  cout << endl;
+  cout << "c = ";
+  cin >> Q_parameters.c;
+  cout << endl;
+  void *quadratic_params;
   quadratic_params = &Q_parameters;
 
   //We only need 4 points to do this exactly
-  numpoints = 10;
+  numpoints = 4;
   CCquadrature quadratic_CCquadrature(numpoints, lower, upper,
                                       &quadratic_polynomial, quadratic_params);
   //print out points and weights
-  cout << "Lets see the points and weights" << endl;
+  cout << "Lets see the points and weights. We only need 4." << endl;
   for(int i = 0; i < numpoints; i++){
     cout << "x_" << i << " = " << quadratic_CCquadrature.get_points()(i)
          << "  w_" << i << " = " << quadratic_CCquadrature.get_weights()(i) <<endl;
