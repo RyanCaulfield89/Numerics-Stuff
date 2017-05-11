@@ -22,19 +22,6 @@ using namespace arma;
 using namespace std;
 
 ///////////////////////////////////////////////////////////////////////////////
-
-//Define a structure for the quadratic polynomial
-/*
-typedef struct
-{
-  complex<double> a;
-  complex<double> b;
-  complex<double> c;
-}
-quadratic_parameters;
-*/
-
-///////////////////////////////////////////////////////////////////////////////
 int main(){
   //First, let's just take a gaussian at chebyshev nodes and try to interpolate
   //to get back the gaussian
@@ -83,8 +70,8 @@ int main(){
   Q_parameters.c = 1.0;
   quadratic_params = &Q_parameters;
 
-  //We only need 3 points to do this exactly
-  numpoints = 3;
+  //We only need 4 points to do this exactly
+  numpoints = 10;
   CCquadrature quadratic_CCquadrature(numpoints, lower, upper,
                                       &quadratic_polynomial, quadratic_params);
   //print out points and weights

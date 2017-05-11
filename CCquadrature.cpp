@@ -78,10 +78,39 @@ void CCquadrature::find_points(){
 
 void CCquadrature::find_weights(){
   weights = vec(numpoints + 1);
+  //This is a confusing formula
+  //First, we construct a w_vector as follows
+  vec w_vector = vec(numpoints + 1);
+  w_vector(0) = 1;
+  for(int i = 1; i < numpoints + 1; i++){
+    if(i % 2 == 0){
+      w_vector(i) = 2.0 / (1.0 - double(i)*double(i));
+    }
+    else{
+      w_vector(i) = 0.0;
+    }
+  }
+  //Now we construct a lambda matrix as follows
+  mat lambda_matrix = mat(numpoints + 1, numpoints + 1);
+  for(int i = 0; i <= numpoints; i++){
+      //First, do the first and last column
+    lambda_matrix(i,0) = 0.5;
+    lambda_matrix(i,numpoints) = 0.5 * cos(double(i) * M_PI);
+    //Now, do all the other columns
+    for(int j = 1; j < numpoints; j++){
+      lambda_matrix(i,j) = cos(double(i) * double(j) * M_PI / numpoints);
+    }
+  }
+  lambda_matrix *= 2.0/numpoints;
+  //Finally, we calculate the weights by weights = lambda^T * W
+  weights = trans(lambda_matrix) * w_vector;
+
+  /*
   for(int i = 0; i <= numpoints; i++){
     weights(i) = M_PI / (2 * (nth_Tchebyshev_polynomial(numpoints, points(i))
                 * diff_nth_Tchebyshev_polynomial(numpoints+1,points(i))));
   }
+  */
 }
 
 void CCquadrature::find_coefficients(){
@@ -160,8 +189,9 @@ complex<double> CCquadrature::evaluate_integral(){
         + (right_boundary + left_boundary) / 2.0;
     //The sqrt(1-x^2) factor is the inverse of the weighting
     //function for chebyshev polynomials.
-    sum += sqrt(1-x*x) * integrand(x, parameters) * weights(i);
+    sum += integrand(x, parameters) * weights(i);
   }
+  sum *= (right_boundary - left_boundary) / 2.0;
   return sum;
 }
 

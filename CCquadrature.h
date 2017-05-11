@@ -2,7 +2,7 @@
 //
 //    File: CCquadrature.h
 //    Description: Header file for CCquadrature.cpp.
-//    This uses Crenshaw-Curtis dicretization to approximate integrals and
+//    This uses Clenshaw-Curtis dicretization to approximate integrals and
 //    derivatives. Idealy, it should allow you to approximate integrals using
 //    very few points and should return an exact value for polynomials of
 //    degree N-1 or less where N is the number of points. It should also
