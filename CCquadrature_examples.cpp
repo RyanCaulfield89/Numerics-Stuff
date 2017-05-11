@@ -87,17 +87,24 @@ int main(){
   numpoints = 3;
   CCquadrature quadratic_CCquadrature(numpoints, lower, upper,
                                       &quadratic_polynomial, quadratic_params);
+  //print out points and weights
+  cout << "Lets see the points and weights" << endl;
+  for(int i = 0; i < numpoints; i++){
+    cout << "x_" << i << " = " << quadratic_CCquadrature.get_points()(i)
+         << "  w_" << i << " = " << quadratic_CCquadrature.get_weights()(i) <<endl;
+  }
+
   complex<double> value = quadratic_CCquadrature.evaluate_integral();
   complex<double> exact = 2.0/3.0*Q_parameters.a + 2.0*Q_parameters.c;
   //report results to the user
   cout << "Integrating a quadratic from x=-1 to x=1 with" << endl;
-  cout << "a = " << Q_parameters.a << endl;
-  cout << "b = " << Q_parameters.b << endl;
-  cout << "c = " << Q_parameters.c << endl;
+  cout << "a = " << real(Q_parameters.a) << endl;
+  cout << "b = " << real(Q_parameters.b) << endl;
+  cout << "c = " << real(Q_parameters.c) << endl;
   cout << "This should yeild an exact value of" << endl;
-  cout << "exact answer = " << exact << endl;
+  cout << "exact answer = " << real(exact) << endl;
   cout << "CCquadrature yields" << endl;
-  cout << "CCquadrature value = " << value << endl;
+  cout << "CCquadrature value = " << real(value) << endl;
 
   cout << "On the next version, we will solve the schrodinger equation." << endl;
 }

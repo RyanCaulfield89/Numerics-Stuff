@@ -20,7 +20,7 @@ using namespace std;
 ///////////////////////////////////////////////////////////////////////////////
 CCquadrature::CCquadrature(int n, double a, double b,
   complex<double>(*my_function)(double x, void *params), void *params){
-  numpoints = n;
+  numpoints = n-1;
   left_boundary = a;
   right_boundary = b;
   integrand = my_function;
@@ -101,13 +101,13 @@ void CCquadrature::find_coefficients(){
 double CCquadrature::nth_Tchebyshev_polynomial(int n, double x){
   //Exact formula defined piecewise. Look it up.
   if(abs(x)<=1){
-    return cos(n * acos(x));
+    return cos(double(n) * acos(x));
   }
   else if(x > 1){
-    return cosh(n * acosh(x));
+    return cosh(double(n) * acosh(x));
   }
   else if(x < -1){
-    return pow(-1,n) * cosh(n * acosh(-x));
+    return pow(-1,n) * cosh(double(n) * acosh(-x));
   }
   else{
     //should never get here.
@@ -117,7 +117,23 @@ double CCquadrature::nth_Tchebyshev_polynomial(int n, double x){
 
 double CCquadrature::nth_Uchebyshev_polynomial(int n, double x){
   //Exact formula. Look it up.
-  return (pow(x+sqrt(x*x-1),n+1) - pow(x-sqrt(x*x-1),n+1))/(2*sqrt(x*x-1));
+  //return (pow(x+sqrt(x*x-1),n+1) - pow(x-sqrt(x*x-1),n+1))/(2*sqrt(x*x-1));
+  if(abs(x) < 1){
+    return sin(double(n + 1) * acos(x)) / sin(acos(x));
+  }
+  else if(abs(x) == 1){
+    return double(n + 1);
+  }
+  else if(x > 1){
+    return sinh(double(n + 1) * acosh(x)) / sinh(acosh(x));
+  }
+  else if (x < -1){
+    return pow(-1,n) * sinh(double(n + 1) * acosh(x)) / sinh(acosh(x));
+  }
+  else{
+    //should never get here.
+    return 0;
+  }
 }
 
 double CCquadrature::diff_nth_Tchebyshev_polynomial(int n, double x){
