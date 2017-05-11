@@ -83,4 +83,5 @@ std::complex<double> gaussian(double x, void *params){
   beta = *(complex<double> *) params;
   complex<double> return_value;
   return_value = exp(-beta*x*x);
+  return return_value;
 }

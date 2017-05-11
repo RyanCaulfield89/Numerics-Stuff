@@ -32,8 +32,9 @@ class CCquadrature
     //Constructs the object and initializes the # of points and the boundaries.
     CCquadrature(int n, double a, double b,
       std::complex<double>(*my_function)(double x, void *params), void *params);
-    //Destructor.
+    //Destructor
     ~CCquadrature();
+
 
     //This makes the differentiation matrix.
     void construct_diff_matrix();
@@ -69,7 +70,7 @@ class CCquadrature
     arma::mat get_diff_matrix();
 
   private:
-    int numpoints             //The number of points used in the quadrature
+    int numpoints;            //The number of points used in the quadrature
     double left_boundary;     //Left boundary or lower bound
     double right_boundary;    //Right boundary or upper bound
     arma::vec points;         //Quadrature points
@@ -79,6 +80,6 @@ class CCquadrature
     std::complex<double>(*integrand)(double x, void *params);
                               //The function to be integrated or interpolated
     void *parameters;         //parameters for the potentials
-}
+};
 
 #endif

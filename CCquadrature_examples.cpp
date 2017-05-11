@@ -24,6 +24,7 @@ using namespace std;
 ///////////////////////////////////////////////////////////////////////////////
 
 //Define a structure for the quadratic polynomial
+/*
 typedef struct
 {
   complex<double> a;
@@ -31,6 +32,7 @@ typedef struct
   complex<double> c;
 }
 quadratic_parameters;
+*/
 
 ///////////////////////////////////////////////////////////////////////////////
 int main(){
@@ -44,6 +46,8 @@ int main(){
   //parameter to pass to the gaussian
   complex<double> beta = 1.0;
   void *params = &beta;
+
+  int numpoints;
 
   cout << "Let's take a gaussian sampled at Chebyshev nodes and try to interpolate it."
        << endl;
@@ -70,12 +74,14 @@ int main(){
 
   //Now, lets do an integration with a quadratic polynomial
   cout << "Let's integrate a quadratic polynomial using CCquadrature" << endl;
+
   //parameters for the quadratic polynomial
   void *quadratic_params;
   quadratic_parameters Q_parameters;
   Q_parameters.a = 1.0;
   Q_parameters.b = 2.0;
   Q_parameters.c = 1.0;
+  quadratic_params = &Q_parameters;
 
   //We only need 3 points to do this exactly
   numpoints = 3;

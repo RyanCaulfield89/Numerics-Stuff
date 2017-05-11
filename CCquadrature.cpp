@@ -31,6 +31,10 @@ CCquadrature::CCquadrature(int n, double a, double b,
   construct_diff_matrix();
 }
 
+CCquadrature::~CCquadrature(){
+
+}
+
 void CCquadrature::construct_diff_matrix(){
   diff_matrix = mat(numpoints + 1, numpoints + 1);
   //This formula is complicated. See Trefethen spectral methods in matlab,
@@ -86,7 +90,7 @@ void CCquadrature::find_coefficients(){
   coefficients = cx_vec(numpoints + 1);
   for(int i = 0; i <= numpoints; i++){
     for(int j = 1; j <= numpoints; j++){
-      coefficients(i) += integrand(points(j),params) *
+      coefficients(i) += integrand(points(j),parameters) *
       nth_Tchebyshev_polynomial(i,points(j));
     }
     coefficients(i) *= 2.0/numpoints;
@@ -131,7 +135,7 @@ double CCquadrature::diff_nth_Uchebyshev_polynomial(int n, double x){
 }
 
 complex<double> CCquadrature::evaluate_integral(){
-  double sum = 0;
+  complex<double> sum = 0;
   double x = 0;
   for(int i = 0; i <= numpoints; i++){
     //The quadrature rule works for integrals from -1 to 1 so
@@ -140,12 +144,12 @@ complex<double> CCquadrature::evaluate_integral(){
         + (right_boundary + left_boundary) / 2.0;
     //The sqrt(1-x^2) factor is the inverse of the weighting
     //function for chebyshev polynomials.
-    sum += sqrt(1-x*x) * integrand(x, params) * weights(i);
+    sum += sqrt(1-x*x) * integrand(x, parameters) * weights(i);
   }
   return sum;
 }
 
-complex<double> interpolate(double x){
+complex<double> CCquadrature::interpolate(double x){
   complex<double> return_value = 0;
   for(int i = 0; i < numpoints; i++){
     return_value += coefficients(i) * nth_Tchebyshev_polynomial(i,x);
