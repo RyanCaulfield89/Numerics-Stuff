@@ -120,7 +120,7 @@ void CCquadrature::find_coefficients(){
   for(int i = 0; i <= numpoints; i++){
     for(int j = 1; j <= numpoints; j++){
       coefficients(i) += integrand(points(j),parameters) *
-      nth_Tchebyshev_polynomial(i,points(j));
+      nth_Tchebyshev_polynomial(i,points(j)) * weights(j);
     }
     coefficients(i) *= 2.0/numpoints;
   }

@@ -96,9 +96,9 @@ int main(){
   cout << "b = " << real(Q_parameters.b) << endl;
   cout << "c = " << real(Q_parameters.c) << endl;
   cout << "This should yeild an exact value of" << endl;
-  cout << "exact answer = " << real(exact) << endl;
+  cout << "exact answer = " << setprecision(16) << real(exact) << endl;
   cout << "CCquadrature yields" << endl;
-  cout << "CCquadrature value = " << real(value) << endl;
+  cout << "CCquadrature value = " << setprecision(16) << real(value) << endl;
 
   cout << "On the next version, we will solve the schrodinger equation." << endl;
 }
