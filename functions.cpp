@@ -85,3 +85,11 @@ std::complex<double> gaussian(double x, void *params){
   return_value = exp(-beta*x*x);
   return return_value;
 }
+
+std::complex<double> rational_function(double x, void *params){
+  complex<double> beta;
+  beta = *(complex<double> *) params;
+  complex<double> return_value;
+  return_value = 1.0 / (1.0 + beta * x * x);
+  return return_value;
+}

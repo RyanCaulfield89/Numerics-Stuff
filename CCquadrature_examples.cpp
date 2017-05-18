@@ -65,37 +65,39 @@ int main(){
   //Next, let's just take a gaussian at chebyshev nodes and try to interpolate
   //to get back the gaussian
 
-  //parameter to pass to the gaussian
-  complex<double> beta = 1.0;
+  //parameter to pass to the function
+  complex<double> beta = 16.0;
   void *params = &beta;
 
   int numpoints;
 
-  cout << "Let's take a gaussian sampled at Chebyshev nodes and try to interpolate it."
+  cout << "Let's take a rational function sampled at Chebyshev nodes and try to interpolate it."
        << endl;
   cout << "We can compare it one sampled at evenly spaced points" << endl;
   cout << "Number of points to use?" << endl;
   cin >> numpoints;
 
-  CCquadrature gaussian_CCquadrature(numpoints, lower, upper, &gaussian, params);
+  CCquadrature rational_CCquadrature(numpoints, lower, upper, &rational_function,
+                                     params);
   //Once we make the object, the expansian coefficients are already calculated
   //Here we can calculate the coefficients for the evenly sampled polynomial fit.
-  cx_vec coefficients = polynomial_fit_coefficients(numpoints, lower, upper, &gaussian, params);
-  //Let's make an output file comparing the real gaussian to the interpolated one
-  ofstream my_out("interpolated_gaussian.dat");
+  cx_vec coefficients = polynomial_fit_coefficients(numpoints, lower, upper,
+                                                    &rational_function, params);
+  //Let's make an output file comparing the real function to the interpolated one
+  ofstream my_out("interpolated_rational.dat");
   my_out << "#  x    actual    cheb_interpolated    poly_interpolated" << endl;
   double x = 0.0;
   for(int i = 0; i < 1000; i++){
     x = lower + double(i)*(upper - lower)/1000.0;
     my_out << setprecision(5) << x << "  " << setprecision(16)
-    << real(gaussian(x, params)) << "  "
-    << real(gaussian_CCquadrature.interpolate(x)) << "  "
+    << real(rational_function(x, params)) << "  "
+    << real(rational_CCquadrature.interpolate(x)) << "  "
     << real(interpolating_polynomial(numpoints, coefficients, x)) << endl;
   }
   my_out.close();
   //Now, run interpolated_gaussian.plt to see a comparison.
-  cout << "Saved data to interpolated_gaussian.dat" << endl;
-  cout << "Now, run interpolated_gaussian.plt to see a comparison." << endl;
+  cout << "Saved data to interpolated_rational.dat" << endl;
+  cout << "Now, run interpolated_rational.plt to see a comparison." << endl;
 
   //Now, lets do an integration with a quadratic polynomial
   cout << "Let's integrate a quadratic polynomial using CCquadrature" << endl;

@@ -35,5 +35,6 @@ std::complex<double> nonlocal_potential(double x, double y, void *params);
 std::complex<double> seperable_nonlocal_potential(double x, double y, void *params);
 std::complex<double> quadratic_polynomial(double x, void *params);
 std::complex<double> gaussian(double x, void *params);
+std::complex<double> rational_function(double x, void *params);
 
 #endif
