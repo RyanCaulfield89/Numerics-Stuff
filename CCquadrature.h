@@ -42,7 +42,8 @@ class CCquadrature
     void find_points();
     //This finds the weight for each node.
     void find_weights();
-    //This find the expansion coefficients for the chebyshev interpolation
+    //This find the expansion coefficients for the polynomial interpolation
+    //You can then recreate the function using f(x) = sum(i,0,N, c_i*x^i)
     void find_coefficients();
     //Calculates the nth chebyshev polynomial of the 1st kind at x.
     double nth_Tchebyshev_polynomial(int n, double x);
@@ -56,8 +57,7 @@ class CCquadrature
     double diff_nth_Uchebyshev_polynomial(int n, double x);
     //This evaluated the integral using the quadrature rule.
     std::complex<double> evaluate_integral();
-    //This approximates the function at x by using a linear combination of
-    //chebyshev polynomials.
+    //This approximates the function at x by a polynomial.
     std::complex<double> interpolate(double x);
 
     //Getters for the important stuff.

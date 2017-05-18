@@ -114,17 +114,22 @@ void CCquadrature::find_weights(){
 }
 
 void CCquadrature::find_coefficients(){
-  //Uses the formula c_i = (2/N)*sum(j,1,N,f(x_j)*T_i(x_j))
-  //By convention, c_0 gets an extra factor of 1/2.
-  coefficients = cx_vec(numpoints + 1);
+  //First, take the function values at the chebyshev nodes.
+  cx_vec function_values = cx_vec(numpoints + 1);
   for(int i = 0; i <= numpoints; i++){
-    for(int j = 1; j <= numpoints; j++){
-      coefficients(i) += integrand(points(j),parameters) *
-      nth_Tchebyshev_polynomial(i,points(j)) * weights(j);
-    }
-    coefficients(i) *= 2.0/numpoints;
+    function_values(i) = integrand(points(i), parameters);
   }
-  coefficients(0) *= 0.5;
+  //Now, this is the matrix A_ij = x_i^j
+  mat interp_matrix = mat(numpoints + 1, numpoints + 1);
+  for(int i = 0; i <= numpoints; i++){
+    for(int j = 0; j <= numpoints; j++){
+      interp_matrix(i,j) = pow(points(i),j);
+    }
+  }
+  //Now, the coefficients are given by solving Ac = f
+  //c = A^-1*f
+  coefficients = cx_vec(numpoints + 1);
+  coefficients = inv(interp_matrix)*function_values;
 }
 
 double CCquadrature::nth_Tchebyshev_polynomial(int n, double x){
@@ -196,9 +201,9 @@ complex<double> CCquadrature::evaluate_integral(){
 }
 
 complex<double> CCquadrature::interpolate(double x){
-  complex<double> return_value = 0;
+  complex<double> return_value = 0.0;
   for(int i = 0; i < numpoints; i++){
-    return_value += coefficients(i) * nth_Tchebyshev_polynomial(i,x);
+    return_value += coefficients(i) * pow(x,i);
   }
   return return_value;
 }
