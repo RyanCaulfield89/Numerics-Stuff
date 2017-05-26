@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-//    File: CCquadrature.h.cpp
+//    File: CCquadrature.cpp
 //    Description: See CCquadrature.h
 //
 //    Programmer: Ryan Caulfield Caulfield.16@osu.edu
@@ -79,6 +79,8 @@ void CCquadrature::find_points(){
 void CCquadrature::find_weights(){
   weights = vec(numpoints + 1);
   //This is a confusing formula
+  //See https://en.wikipedia.org/wiki/Clenshaw%E2%80%93Curtis_quadrature
+  //under precomputing quadrature weights.
   //First, we construct a w_vector as follows
   vec w_vector = vec(numpoints + 1);
   w_vector(0) = 1;
@@ -93,7 +95,7 @@ void CCquadrature::find_weights(){
   //Now we construct a lambda matrix as follows
   mat lambda_matrix = mat(numpoints + 1, numpoints + 1);
   for(int i = 0; i <= numpoints; i++){
-      //First, do the first and last column
+    //First, do the first and last column
     lambda_matrix(i,0) = 0.5;
     lambda_matrix(i,numpoints) = 0.5 * cos(double(i) * M_PI);
     //Now, do all the other columns
