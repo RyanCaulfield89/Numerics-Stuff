@@ -26,6 +26,24 @@ typedef struct
 }
 quadratic_parameters;
 
+typedef struct
+{
+  double a; //diffusiveness of the potential
+  double R; //radius of the nucleus
+}
+woods_saxon_parameters;
+
+typedef struct
+{
+  woods_saxon_parameters real_parameters;
+  woods_saxon_parameters imaginary_paramters;
+  double V;
+  double W;
+  double W_D;
+
+}
+optical_potential_parameters;
+
 ///////////////////////////////////////////////////////////////////////////////
 std::complex<double> coulomb_potential(double x, void *params);
 std::complex<double> harmonic_potential(double x, void *params);
@@ -36,5 +54,8 @@ std::complex<double> seperable_nonlocal_potential(double x, double y, void *para
 std::complex<double> quadratic_polynomial(double x, void *params);
 std::complex<double> gaussian(double x, void *params);
 std::complex<double> rational_function(double x, void *params);
+std::complex<double> woods_saxon_potential(double x, void *params);
+std::complex<double> diff_woods_saxon_potential(double x, void *params);
+std::complex<double> optical_potential(double x void *params);
 
 #endif
