@@ -36,7 +36,7 @@ woods_saxon_parameters;
 typedef struct
 {
   woods_saxon_parameters real_parameters;
-  woods_saxon_parameters imaginary_paramters;
+  woods_saxon_parameters imaginary_parameters;
   double V;
   double W;
   double W_D;
@@ -56,6 +56,6 @@ std::complex<double> gaussian(double x, void *params);
 std::complex<double> rational_function(double x, void *params);
 std::complex<double> woods_saxon_potential(double x, void *params);
 std::complex<double> diff_woods_saxon_potential(double x, void *params);
-std::complex<double> optical_potential(double x void *params);
+std::complex<double> optical_potential(double x, void *params);
 
 #endif
