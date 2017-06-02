@@ -24,18 +24,19 @@ using namespace std;
 ///////////////////////////////////////////////////////////////////////////////
 int main() {
   //Set up parameters
+  optical_potential_parameters op_parameters;
+  op_parameters.E = 50.0;
+  op_parameters.A = 56;
+  op_parameters.Z = 26;
+  double R = 1.25 * pow(op_parameters.A, 1.0/3.0);
   woods_saxon_parameters real_parameters;
   real_parameters.a = 0.65;
-  real_parameters.R = 5.0;
+  real_parameters.R = R;
   woods_saxon_parameters imaginary_parameters;
   imaginary_parameters.a = 0.47;
-  imaginary_parameters.R = 5.0;
-  optical_potential_parameters op_parameters;
+  imaginary_parameters.R = R;
   op_parameters.real_parameters = real_parameters;
   op_parameters.imaginary_parameters = imaginary_parameters;
-  op_parameters.V = 53.0;
-  op_parameters.W = 0.2;
-  op_parameters.W_D = 10.0;
   void *op_parameters_ptr;
   op_parameters_ptr = &op_parameters;
 
