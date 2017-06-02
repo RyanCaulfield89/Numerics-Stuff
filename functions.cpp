@@ -124,10 +124,30 @@ std::complex<double> optical_potential(double x, void *params){
     ((optical_potential_parameters *) params)->imaginary_parameters;
   void *imaginary_parameters_ptr;
   imaginary_parameters_ptr = &imaginary_parameters;
-  //These are the strengths of the various components of the potential
-  double V = ((optical_potential_parameters *) params)->V;
-  double W = ((optical_potential_parameters *) params)->W;
-  double W_D = ((optical_potential_parameters *) params)->W_D;
+  //Energy of the particle
+  double E = ((optical_potential_parameters *) params)->E;
+  //Total nucleons in nucleus
+  int A = ((optical_potential_parameters *) params)->A;
+  //Total protons in nucleus
+  int Z = ((optical_potential_parameters *) params)->Z;
+  //Total neutrons in nucleus
+  int N = A - Z;
+  //Now we need the strengths of the various components of the potential.
+  double V = 50.0 - 48.0 * (N - Z) / A + 0.3 * E;
+  double W;
+  if(0.22*E > 2.0){
+    W = 0.22 * E - 2.0;
+  }
+  else{
+    W = 0.0;
+  }
+  double W_D;
+  if(12.0 - 0.25*E + 24.0*(N-Z)/A > 0.0){
+    W_D = 12.0 - 0.25*E + 24.0*(N-Z)/A;
+  }
+  else{
+    W_D = 0.0;
+  }
   complex<double> return_value;
   //The value is given by U(r) = U_R(r) + U_I(r) + U_D(r)
   // with U_R(r) = -V * woods_saxon_potential(r)

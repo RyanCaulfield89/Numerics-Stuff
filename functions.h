@@ -37,10 +37,9 @@ typedef struct
 {
   woods_saxon_parameters real_parameters;
   woods_saxon_parameters imaginary_parameters;
-  double V;
-  double W;
-  double W_D;
-
+  double E; //energy of a projectile particle
+  int A; //Total number of nucleons in the nucleus
+  int Z; //Total number of protons in the nucleus
 }
 optical_potential_parameters;
 
