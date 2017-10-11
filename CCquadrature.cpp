@@ -6,7 +6,7 @@
 //    Programmer: Ryan Caulfield Caulfield.16@osu.edu
 //
 //    To Do List:
-//      1 - This needs to be tested. I should make an example file tht does a
+//      1 - This needs to be tested. I should make an example file that does a
 //          bunch of stuff. It should include solving an IDE, doing an integral
 //          of a polynomial exactly, doing an integral of another function
 //          accurately and representing a function as a series of polynomials.
