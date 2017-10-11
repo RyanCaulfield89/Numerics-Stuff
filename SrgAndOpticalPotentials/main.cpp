@@ -7,7 +7,7 @@
 //                  It also can perform SRG transformations on potentials. It
 //                  compares the results from SRG transforming potentials and
 //                  then finding optical potentials to the results from SRG
-//                  transforming the optical potentials directly. In principal,
+//                  transforming the optical potentials directly. In principle,
 //                  the physical observables, phase shifts, should be insensitive
 //                  to this.
 //
@@ -15,7 +15,8 @@
 //    Programmer: Ryan Caulfield Caulfield.16@osu.edu
 //
 //    To Do List:
-//      1 -
+//      1 - Implement classes
+//      2 - Write the body
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -34,6 +35,8 @@ int main(){
   //which is included under Potential.h.
 
   //Include a message here which tells the user which potentials we will use.
+
+
 
   //Here, we need to SRG evolve the potential. This is a unitary transformation
   //that is determined by solving a flow equation. This is done by the SRG class,
