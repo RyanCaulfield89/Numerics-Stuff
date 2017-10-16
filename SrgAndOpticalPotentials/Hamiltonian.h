@@ -7,7 +7,7 @@
 //    Programmer: Ryan Caulfield Caulfield.16@osu.edu
 //
 //    To Do List:
-//      1 -
+//      1 - Implement everything
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -18,7 +18,7 @@
 #include <armadillo>  //This package does all the linear algebra stuff.
 #include <complex>    //Complex number stuff.
 #include <cmath>      //Math stuff
-#include <CCquadrature.h> //This is use for discretizing the Hamiltonian
+#include "CCquadrature.h" //This is use for discretizing the Hamiltonian
 
 Class Hamiltonian
 {
@@ -51,12 +51,15 @@ Class Hamiltonian
     void construct_nonlocal_xmatrix_rep();
     void construct_nonlocal_kmatrix_rep();
 
+    //This SRG evolves the Hamiltonian matrix H_0 to H_s
+    void SRG_evolve(double s);
+
     //Getters
-    arma::mat get_hamiltonian_matrix();
-    arma::mat get_kinetic_matrix();
-    arma::mat get_potential_matrix();
-    arma::vec get_points();
-    arma::vec get_weights();
+    arma::cx_mat get_hamiltonian_matrix();
+    arma::cx_mat get_kinetic_matrix();
+    arma::cx_mat get_potential_matrix();
+    arma::cx_vec get_points();
+    arma::cx_vec get_weights();
 
 
   private:
@@ -69,15 +72,15 @@ Class Hamiltonian
     arma::vec points;
                               //Quadrature points used in discretization
 
-    arma::vec weights;        //Quadrature weights used in discretization
+    arma::cx_vec weights;        //Quadrature weights used in discretization
 
-    arma::mat kinetic_matrix
+    arma::cx_mat kinetic_matrix
                               //Matrix of the kinetic term in the Hamiltonian
 
-    arma::mat potential_matrix;
+    arma::cx_mat potential_matrix;
                               //Matrix representation of the potential
 
-    arma::mat hamiltonian_matrix;
+    arma::cx_mat hamiltonian_matrix;
                               //Matrix representation of the Hamiltonian
 
     std::complex<double>(*local_potential)(double q, void *params);

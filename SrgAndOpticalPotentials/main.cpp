@@ -23,8 +23,7 @@
 //Classes that are included
 #include "Functions.h"
 #include "Hamiltonian.h"
-#include "SRG.h"
-#include "OpticalPotential"
+#include "OpticalPotential.h"
 #include "Scattering.h"
 
 using namespace std;
@@ -45,8 +44,8 @@ int main(){
   //be done using the scattering class.
 
   //Here, we need to SRG evolve the Hamiltonian. This is a unitary transformation
-  //that is determined by solving a flow equation. This is done by the SRG class,
-  //which is included under SRG.h.
+  //that is determined by solving a flow equation. This is also done by the
+  //Hamiltonian class.
 
   //Inlude a message here that the Hamiltonian have been SRG evolved.
 
