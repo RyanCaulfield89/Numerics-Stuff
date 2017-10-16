@@ -38,15 +38,19 @@ int main(){
   //Include a message here which tells the user which potentials we will use.
 
   //Now, we need to construct a Hamiltonian from the potential. This is done by
-  //the Hamiltonian class included under Hamiltonian.h
+  //the Hamiltonian class included under Hamiltonian.h.
 
-  //Here, we need to SRG evolve the potential. This is a unitary transformation
+  //Before we SRG evolve, we should find the phase shifts. Later we will compare
+  //the results to those obtained using the optical potential method. This can
+  //be done using the scattering class.
+
+  //Here, we need to SRG evolve the Hamiltonian. This is a unitary transformation
   //that is determined by solving a flow equation. This is done by the SRG class,
   //which is included under SRG.h.
 
-  //Inlude a message here that the potentials have been SRG transformed.
+  //Inlude a message here that the Hamiltonian have been SRG evolved.
 
-  //Now that we have our potentials, both evolved and unevolved, we need to
+  //Now that we have our Hamiltonians, both evolved and unevolved, we need to
   //find the optical potentials for them. This involves finding the matrix
   //elements in the eigenbasis that you want to remove. In our toy models, this
   //will be the nuclear eigenbasis. We also need to find an inverse differential
@@ -72,5 +76,4 @@ int main(){
   //relative error between the supposedly equvialent phase shifts.
 
   //Include instructions on how to plot the important data.
-
 }

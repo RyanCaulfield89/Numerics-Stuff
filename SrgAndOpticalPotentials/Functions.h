@@ -1,0 +1,20 @@
+///////////////////////////////////////////////////////////////////////////////
+//
+//    File: Functions.h
+//    Description: Header file for functions.h
+//                 This is a collection of functions that we maybe care about.
+//
+//    Programmer: Ryan Caulfield Caulfield.16@osu.edu
+//
+//    To do list:
+//      1 - Nothing yet.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+#ifndef FUNCTIONS_H
+#define FUNCTIONS_H //To avoid including this file twice
+//Headers
+
+//structures for the function parameters
+
+///////////////////////////////////////////////////////////////////////////////
