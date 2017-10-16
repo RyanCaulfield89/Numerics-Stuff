@@ -21,7 +21,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 //Classes that are included
-#include "Potential.h"
+#include "Functions.h"
+#include "Hamiltonian.h"
 #include "SRG.h"
 #include "OpticalPotential"
 #include "Scattering.h"
@@ -31,12 +32,13 @@ using namespace std;
 int main(){
 
   //Decide which potential to use. To do this, we need to import a class which
-  //has defined the potentials that we want to use. This is the Potential class,
-  //which is included under Potential.h.
+  //has defined the potentials that we want to use. This is the function class,
+  //which is included under Function.h.
 
   //Include a message here which tells the user which potentials we will use.
 
-
+  //Now, we need to construct a Hamiltonian from the potential. This is done by
+  //the Hamiltonian class included under Hamiltonian.h
 
   //Here, we need to SRG evolve the potential. This is a unitary transformation
   //that is determined by solving a flow equation. This is done by the SRG class,
